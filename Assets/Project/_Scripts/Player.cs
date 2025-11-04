@@ -12,6 +12,8 @@ public class Player : Entity
 
     private Animator _animator;
 
+    public GameObject Protectile;
+
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -52,6 +54,11 @@ public class Player : Entity
         {
             _direction.y = -1f;
         }
+    }
+
+    public void SpawnProtectile()
+    {
+        Instantiate(Protectile, transform.position, Quaternion.identity);
     }
 
 }
