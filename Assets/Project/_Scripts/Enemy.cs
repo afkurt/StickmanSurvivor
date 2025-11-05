@@ -53,4 +53,10 @@ public class Enemy : Entity
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
     }
+
+    public override void Die()
+    {
+        base.Die();
+        ObjectPoolingManager.Instance.ReturnQueue(gameObject);
+    }
 }

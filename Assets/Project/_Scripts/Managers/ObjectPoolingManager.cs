@@ -7,7 +7,7 @@ public class ObjectPoolingManager : MonoBehaviour
     public GameObject ProjectilePrefab;
     public GameObject EnemyPrefab;
     public int MaxProjectileCount = 100;
-    public int MaxEnemyCount = 0;
+    public int MaxEnemyCount = 10;
 
     public Queue<GameObject> ProjectileQueue = new Queue<GameObject>();
     public Queue<GameObject> EnemyQueue = new Queue<GameObject>();
@@ -16,12 +16,13 @@ public class ObjectPoolingManager : MonoBehaviour
     private void Awake()
     {
         if(Instance == null) Instance = this;
-    }
-
-    private void Start()
-    {
         CreatePool(ProjectilePrefab, ProjectileQueue, MaxProjectileCount);
         CreatePool(EnemyPrefab, EnemyQueue, MaxEnemyCount);
+    }
+    
+    private void Start()
+    {
+        
     }
 
     private void CreatePool(GameObject prefab, Queue<GameObject> pool, int count)
@@ -45,11 +46,10 @@ public class ObjectPoolingManager : MonoBehaviour
 
     public GameObject GetFromPool(Queue<GameObject> pool, GameObject prefab)
     {
-        if(pool.Count > 0)
+        if (pool.Count > 0)
         {
             GameObject obj = pool.Dequeue();
             obj.SetActive(true);
-            Debug.Log(pool.Count);
             return obj;
         }
         return null;

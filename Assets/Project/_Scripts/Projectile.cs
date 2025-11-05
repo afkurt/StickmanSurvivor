@@ -7,7 +7,6 @@ public class Projectile : MonoBehaviour
     public float Speed = 10f;
     public float Lifetime = 10f;
     public float Timer;
-    public static int i;
 
     private void Start()
     {
@@ -47,11 +46,8 @@ public class Projectile : MonoBehaviour
     {
         Enemy enemy = other.GetComponent<Enemy>();
         if(enemy == null ) return;
-        i++;
-        Debug.Log("Enemye vurdum "+i);
         enemy.TakeDamage(10);
         ObjectPoolingManager.Instance.ReturnQueue(gameObject);
 
-        
     }
 }

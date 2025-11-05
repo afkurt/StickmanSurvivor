@@ -5,10 +5,10 @@ using UnityEngine.UI;
 public abstract class LivingEntity : MonoBehaviour
 {
     public delegate void OnDamageTake(int damage);
-    public static OnDamageTake onDamageTake;
+    public OnDamageTake onDamageTake;
 
     public delegate void OnDie();
-    public static OnDie onDie;
+    public OnDie onDie;
 
 
     protected int MaxHealth = 100;
