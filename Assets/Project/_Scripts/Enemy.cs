@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class Enemy : Entity
@@ -5,13 +6,14 @@ public class Enemy : Entity
     [Header("Detection Settings")]
     public float detectionRadius = 5f;
     public float moveSpeed = 3f;
-
+    
     private Transform target;
-
+    public TextMeshProUGUI textMeshPro;
     void Update()
     {
         DetectTarget();
         MoveTowardsTarget();
+        textMeshPro.text = CurrentHealth.ToString();
     }
 
     void DetectTarget()
@@ -33,21 +35,21 @@ public class Enemy : Entity
     {
         if (target == null)
         {
-            // Hedef yoksa idle kal
+            
             return;
         }
 
-        // Hedefe doðru yönel
+        
         Vector3 direction = (target.position - transform.position).normalized;
         transform.position += direction * moveSpeed * Time.deltaTime;
 
-        // Ýstersen bakýþ yönünü de hedefe çevir
+        
         transform.LookAt(new Vector3(target.position.x, transform.position.y, target.position.z));
     }
 
     void OnDrawGizmosSelected()
     {
-        // Editörde detection alanýný görselleþtirmek için
+        
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
     }

@@ -1,18 +1,18 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Player : Entity
 {
     [SerializeField] private CharacterController _controller;
     [SerializeField] private FloatingJoystick _joystick;
+    [SerializeField] private GameObject _projectilePrefab;
 
     [Header("Attributes")]
     [SerializeField] private Vector3 _direction;
-    [SerializeField] private float _speed = 6f;
     private float _gravity = -3f;
-
     private Animator _animator;
-
-    public GameObject Protectile;
+    private float AttackTimer;
+    
 
     private void Awake()
     {
@@ -23,6 +23,14 @@ public class Player : Entity
     {
         PlayerMove();
         ApplyGravity();
+        AttackTimer += Time.deltaTime;
+
+        if(AttackTimer>AttackCD )
+        {
+            SpawnProjectile();
+            AttackTimer = 0;
+
+        }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -37,7 +45,7 @@ public class Player : Entity
         _direction.x= _joystick.Horizontal;
         _direction.z = _joystick.Vertical;
         
-        _controller.Move(_direction * _speed * Time.deltaTime);
+        _controller.Move(_direction * MovingSpeed * Time.deltaTime);
         transform.LookAt(transform.position + new Vector3 (_direction.x , 0, _direction.z));
 
         float animSpeed = new Vector3(_direction.x, 0 , _direction.z).magnitude;
@@ -56,9 +64,37 @@ public class Player : Entity
         }
     }
 
-    public void SpawnProtectile()
+    public void SpawnProjectile()
     {
-        Instantiate(Protectile, transform.position, Quaternion.identity);
+
+        Transform Target = FindNearestTarget();
+
+        if (Target != null)
+        {
+            GameObject _projectile = ObjectPoolingManager.Instance.GetProjectile();
+            _projectile.transform.position = transform.position + transform.forward + transform.up;
+            _projectile.transform.rotation = transform.rotation;
+            _projectile.SetActive(true);
+            _projectile.GetComponent<Projectile>().SetTarget(Target);
+            
+        }
+
     }
 
+    private Transform FindNearestTarget()
+    {
+        
+        Collider[] hits = Physics.OverlapSphere(transform.position, AttackRange, TargetLayer);
+        if (hits.Length == 0) return null;
+
+        Transform nearest = hits[0].transform;
+        return nearest;
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        // Editörde detection alanını görselleştirmek için
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, AttackRange);
+    }
 }

@@ -17,3 +17,6 @@ MonoBehaviour:
   TargetLayer:
     serializedVersion: 2
     m_Bits: 128
+  MovingSpeed: 6
+  AttackRange: 10
+  AttackCD: 0.1

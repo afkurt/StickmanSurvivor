@@ -12,7 +12,7 @@ public abstract class LivingEntity : MonoBehaviour
 
 
     protected int MaxHealth = 100;
-    protected int CurrentHealth;
+    [SerializeField] protected int CurrentHealth;
 
     
     private void OnEnable()
@@ -37,7 +37,7 @@ public abstract class LivingEntity : MonoBehaviour
     }
     public virtual void Die()
     {
-        Debug.Log("Öldü");
+        
     }
 
     

@@ -10,6 +10,8 @@ public class EntityData : ScriptableObject
     public EntityType Type;
     public int MaxHealth;
     public LayerMask TargetLayer;
-
+    public float MovingSpeed;
+    public float AttackRange;
+    public float AttackCD;
 
 }
