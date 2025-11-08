@@ -12,16 +12,16 @@ public abstract class LivingEntity : MonoBehaviour
 
 
     protected int MaxHealth = 100;
-    [SerializeField] protected int CurrentHealth;
+    [SerializeField] public int CurrentHealth;
 
     
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         onDamageTake += TakeDamage;
         onDie += Die;
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         onDamageTake -= TakeDamage;
         onDie -= Die;
@@ -29,7 +29,7 @@ public abstract class LivingEntity : MonoBehaviour
     public virtual void TakeDamage(int damage)
     {
         CurrentHealth -= damage;
-        if(CurrentHealth < 0 )
+        if(CurrentHealth <= 0 )
         {
             onDie?.Invoke();
         }

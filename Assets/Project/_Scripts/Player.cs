@@ -10,13 +10,12 @@ public class Player : Entity
     [Header("Attributes")]
     [SerializeField] private Vector3 _direction;
     private float _gravity = -3f;
-    private Animator _animator;
     private float AttackTimer;
     
 
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
+
     }
 
     private void Update()
@@ -31,12 +30,7 @@ public class Player : Entity
             AttackTimer = 0;
 
         }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            onDamageTake?.Invoke(10);
-            Debug.Log($"{CurrentHealth}");
-        }
+        
     }
 
 
@@ -46,22 +40,14 @@ public class Player : Entity
         _direction.z = _joystick.Vertical;
         
         _controller.Move(_direction * MovingSpeed * Time.deltaTime);
-        transform.LookAt(transform.position + new Vector3 (_direction.x , 0, _direction.z));
+        transform.LookAt(transform.position + new Vector3 (_direction.x , 0, _direction.z)); //buraya bak
 
         float animSpeed = new Vector3(_direction.x, 0 , _direction.z).magnitude;
         _animator.SetFloat("Speed", animSpeed);
     }
     public void ApplyGravity()
     {
-        if (!_controller.isGrounded)
-        {
-            _direction.y += _gravity * Time.deltaTime;
-            
-        }
-        else
-        {
-            _direction.y = -1f;
-        }
+        _direction.y = _gravity;
     }
 
 
@@ -90,6 +76,7 @@ public class Player : Entity
         if (hits.Length == 0) return null;
 
         Transform nearest = hits[0].transform;
+        Debug.Log(nearest.transform.GetInstanceID());
         return nearest;
     }
 

@@ -49,7 +49,6 @@ public class ObjectPoolingManager : MonoBehaviour
         if (pool.Count > 0)
         {
             GameObject obj = pool.Dequeue();
-            obj.SetActive(true);
             return obj;
         }
         return null;
@@ -64,7 +63,6 @@ public class ObjectPoolingManager : MonoBehaviour
             EnemyQueue.Enqueue(obj);
             return;
         }
-        Debug.Log("Listeye geri döndüm");
         ProjectileQueue.Enqueue(obj);
     }
 

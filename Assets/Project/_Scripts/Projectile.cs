@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -7,8 +8,19 @@ public class Projectile : MonoBehaviour
     public float Speed = 10f;
     public float Lifetime = 10f;
     public float Timer;
+    public TrailRenderer _trailRenderer;
+    public Entity Entity;
 
     private void Start()
+    {
+        
+    }
+    private void OnEnable()
+    {
+        
+    }
+
+    private void OnDisable()
     {
         
     }
@@ -18,27 +30,42 @@ public class Projectile : MonoBehaviour
         if(Timer > Lifetime)
         {
             ObjectPoolingManager.Instance.ReturnQueue(gameObject);
-            Timer = 0;
+            return;
+        }
+        else
+        {
+            if (Entity.CurrentHealth <= 0)
+            {
+                Target = null;
+                
+            }
+            ProtectileMove();
+
         }
         Timer += Time.deltaTime;
-        ProtectileMove();
+        
     }
+
+    
     public void SetTarget(Transform t)
     {
-        Target = t.GetComponent<Entity>().AimPoint;
+        Entity = t.GetComponent<Entity>();
+        Target = Entity.AimPoint;
     }
 
     public void ProtectileMove()
     {
-        if(Target == null)
+        Vector3 dir = transform.position;
+        if (Target == null)
         {
-            transform.position += transform.forward * Speed * Time.deltaTime;
-            return;
+            dir = transform.forward ;
         }
-
-        Vector3 dir = (Target.position - transform.position).normalized;
+        else
+        {
+            dir = (Target.position - transform.position).normalized;
+            transform.LookAt(Target);
+        }
         transform.position += dir * Speed * Time.deltaTime;
-        transform.LookAt(Target);
     }
 
      
