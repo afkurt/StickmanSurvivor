@@ -46,7 +46,12 @@ public class Enemy : Entity
     void MoveWithNavMesh()
     {
         _navMeshAgent.SetDestination(target.position);
-        _animator.SetFloat("Speed", _navMeshAgent.speed);
+        _animator.SetFloat("Speed", _navMeshAgent.velocity.magnitude);
+        if(_navMeshAgent.velocity.magnitude <=  0)
+        {
+            transform.LookAt(target.position);
+        }
+        
 
     }
     void DetectTarget()
@@ -56,7 +61,7 @@ public class Enemy : Entity
 
         if (hits.Length > 0)
         {
-            target = hits[0].transform; // en yakýn ilk hedefi al
+            target = hits[0].transform; 
         }
         else
         {
@@ -64,23 +69,6 @@ public class Enemy : Entity
         }
     }
 
-    void MoveTowardsTarget()
-    {
-        if (target == null)
-        {
-            
-            return;
-        }
-
-        
-        Vector3 direction = (target.position - transform.position).normalized;
-        transform.position += direction * moveSpeed * Time.deltaTime;
-
-        float AnimSpeed = new Vector3(direction.x, 0, direction.z).magnitude;
-        _animator.SetFloat("Speed", AnimSpeed);
-        
-        transform.LookAt(new Vector3(target.position.x, transform.position.y, target.position.z));
-    }
 
     void OnDrawGizmosSelected()
     {
@@ -92,15 +80,16 @@ public class Enemy : Entity
     public override void Die()
     {
         base.Die();
-        
+        _collider.enabled = false;
         _animator.SetTrigger("Dead");
-        
-        
+        XpManager.Instance.AddXP(1);
+        ObjectPoolingManager.Instance.ReturnQueue(gameObject);
+
+
     }
     public void OnDeadAnimation()
     {
-        XpManager.Instance.AddXP(1);
-        ObjectPoolingManager.Instance.ReturnQueue(gameObject);
+        
     }
 
     

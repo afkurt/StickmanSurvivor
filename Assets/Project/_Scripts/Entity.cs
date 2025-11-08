@@ -9,6 +9,7 @@ public abstract class Entity : LivingEntity
     public float AttackRange;
     public float AttackCD;
     protected Animator _animator;
+    protected Collider _collider;
 
 
 
@@ -20,5 +21,6 @@ public abstract class Entity : LivingEntity
         AttackRange = EntityData.AttackRange;
         AttackCD = EntityData.AttackCD;
         _animator = GetComponent<Animator>();
+        _collider = GetComponent<Collider>();
     }
 }

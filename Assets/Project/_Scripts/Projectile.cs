@@ -6,7 +6,7 @@ public class Projectile : MonoBehaviour
     public Transform Target;
     public int Damage = 10;
     public float Speed = 10f;
-    public float Lifetime = 10f;
+    public float Lifetime = 2f;
     public float Timer;
     public TrailRenderer _trailRenderer;
     public Entity Entity;
@@ -30,6 +30,7 @@ public class Projectile : MonoBehaviour
         if(Timer > Lifetime)
         {
             ObjectPoolingManager.Instance.ReturnQueue(gameObject);
+            Timer = 0;
             return;
         }
         else
@@ -47,7 +48,7 @@ public class Projectile : MonoBehaviour
     }
 
     
-    public void SetTarget(Transform t)
+    public void SetTarget(Enemy t)
     {
         Entity = t.GetComponent<Entity>();
         Target = Entity.AimPoint;
@@ -73,7 +74,7 @@ public class Projectile : MonoBehaviour
     {
         Enemy enemy = other.GetComponent<Enemy>();
         if(enemy == null ) return;
-        enemy.TakeDamage(10);
+        enemy.TakeDamage(50);
         ObjectPoolingManager.Instance.ReturnQueue(gameObject);
 
     }

@@ -6,7 +6,7 @@ public class EnemySpawnManager : MonoBehaviour
     [SerializeField] private float _minRad = 2f;
     [SerializeField] private float _maxRad = 10f;
     [SerializeField] private Transform _player;
-    [SerializeField] private float _timer = 50f;
+    [SerializeField] private float _timer;
     [SerializeField] private float _enemyCount;
     public static EnemySpawnManager Instance;
 
@@ -30,9 +30,9 @@ public class EnemySpawnManager : MonoBehaviour
     private void Update()
     {
         _timer += Time.deltaTime;
-        if( _timer > 30f && _enemyCount < 200f)
+        if( _timer > 5f && _enemyCount < 200f)
         {
-            SpawnEnemy(30);
+            SpawnEnemy(50);
             _timer = 0;
         }
     }

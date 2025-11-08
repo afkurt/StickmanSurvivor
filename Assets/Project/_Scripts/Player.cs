@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 
 public class Player : Entity
@@ -11,6 +12,7 @@ public class Player : Entity
     [SerializeField] private Vector3 _direction;
     private float _gravity = -3f;
     private float AttackTimer;
+    public Enemy Target;
     
 
     private void Awake()
@@ -41,7 +43,10 @@ public class Player : Entity
         
         _controller.Move(_direction * MovingSpeed * Time.deltaTime);
         transform.LookAt(transform.position + new Vector3 (_direction.x , 0, _direction.z)); //buraya bak
-
+        if( Target != null )
+        {
+            transform.LookAt(Target.transform);
+        }
         float animSpeed = new Vector3(_direction.x, 0 , _direction.z).magnitude;
         _animator.SetFloat("Speed", animSpeed);
     }
@@ -54,28 +59,39 @@ public class Player : Entity
     
     public void SpawnProjectile()
     {
-
-        Transform Target = FindNearestTarget();
+        if(Target == null)
+        {
+            Target = FindNearestTarget();
+            
+        }
+        else if (Target.CurrentHealth <= 0)
+        {
+           Target = FindNearestTarget();
+            
+        }
 
         if (Target != null)
         {
+
             GameObject _projectile = ObjectPoolingManager.Instance.GetProjectile();
             _projectile.transform.position = transform.position + transform.forward + transform.up;
             _projectile.transform.rotation = transform.rotation;
             _projectile.SetActive(true);
             _projectile.GetComponent<Projectile>().SetTarget(Target);
-            
+
         }
 
     }
 
-    private Transform FindNearestTarget()
+    private Enemy FindNearestTarget()
     {
         
         Collider[] hits = Physics.OverlapSphere(transform.position, AttackRange, TargetLayer);
         if (hits.Length == 0) return null;
 
-        Transform nearest = hits[0].transform;
+        hits = hits.OrderBy(h=> (h.transform.position - transform.position).magnitude).ToArray(); 
+
+        Enemy nearest = hits[0].GetComponent<Enemy>();
         Debug.Log(nearest.transform.GetInstanceID());
         return nearest;
     }

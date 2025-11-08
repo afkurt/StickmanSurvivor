@@ -309,7 +309,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.25488704, y: 0.16773126, z: -0.044943456, w: 0.95125127}
-  m_LocalPosition: {x: -6.640953, y: 12.500002, z: -25.77494}
+  m_LocalPosition: {x: -11.083925, y: 20.000004, z: -37.981907}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -691,7 +691,7 @@ Transform:
   m_GameObject: {fileID: 448761758}
   serializedVersion: 2
   m_LocalRotation: {x: 0.25488704, y: 0.16773126, z: -0.044943456, w: 0.95125127}
-  m_LocalPosition: {x: -6.640953, y: 12.500002, z: -25.77494}
+  m_LocalPosition: {x: -11.083925, y: 20.000004, z: -37.981907}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -710,7 +710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886251e9a18ece04ea8e61686c173e1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraDistance: 25
+  CameraDistance: 40
   DeadZoneDepth: 0
   Composition:
     ScreenPosition: {x: 0, y: 0}
@@ -760,7 +760,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProjectilePrefab: {fileID: 5271942155103350682, guid: 11582ac1e1149724584707439f63bb40, type: 3}
   EnemyPrefab: {fileID: 534664975100864684, guid: cf2953be288ea4c46a9058374b1a3d83, type: 3}
-  MaxProjectileCount: 100
+  MaxProjectileCount: 10000
   MaxEnemyCount: 250
 --- !u!4 &488705995
 Transform:

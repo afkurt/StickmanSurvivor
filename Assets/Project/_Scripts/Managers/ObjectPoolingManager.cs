@@ -24,6 +24,7 @@ public class ObjectPoolingManager : MonoBehaviour
     {
         
     }
+    
 
     private void CreatePool(GameObject prefab, Queue<GameObject> pool, int count)
     {
@@ -36,6 +37,7 @@ public class ObjectPoolingManager : MonoBehaviour
 
     public GameObject GetProjectile()
     {
+        Debug.Log(ProjectileQueue.Count);
         return GetFromPool(ProjectileQueue, ProjectilePrefab);
     }
 
@@ -49,6 +51,8 @@ public class ObjectPoolingManager : MonoBehaviour
         if (pool.Count > 0)
         {
             GameObject obj = pool.Dequeue();
+            Collider objCollider = obj.GetComponent<Collider>();
+            objCollider.enabled = true;
             return obj;
         }
         return null;
