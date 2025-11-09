@@ -760,7 +760,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProjectilePrefab: {fileID: 5271942155103350682, guid: 11582ac1e1149724584707439f63bb40, type: 3}
   EnemyPrefab: {fileID: 534664975100864684, guid: cf2953be288ea4c46a9058374b1a3d83, type: 3}
-  MaxProjectileCount: 10000
+  MaxProjectileCount: 500
   MaxEnemyCount: 250
 --- !u!4 &488705995
 Transform:

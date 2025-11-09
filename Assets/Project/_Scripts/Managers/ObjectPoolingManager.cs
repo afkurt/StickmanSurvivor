@@ -67,6 +67,7 @@ public class ObjectPoolingManager : MonoBehaviour
             EnemyQueue.Enqueue(obj);
             return;
         }
+        obj.GetComponent<Projectile>().Target = null;
         ProjectileQueue.Enqueue(obj);
     }
 

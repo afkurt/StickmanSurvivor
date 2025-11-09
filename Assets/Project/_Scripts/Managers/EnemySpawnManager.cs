@@ -51,7 +51,7 @@ public class EnemySpawnManager : MonoBehaviour
             obj.SetActive(true);
             Enemy enemy = obj.GetComponent<Enemy>();
         }
-        _enemyCount += 30f;
+        _enemyCount += 50f;
 
     }
 }

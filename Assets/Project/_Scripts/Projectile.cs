@@ -22,7 +22,8 @@ public class Projectile : MonoBehaviour
 
     private void OnDisable()
     {
-        
+        Timer = 0;
+        Target = null;
     }
 
     private void Update()
@@ -75,6 +76,7 @@ public class Projectile : MonoBehaviour
         Enemy enemy = other.GetComponent<Enemy>();
         if(enemy == null ) return;
         enemy.TakeDamage(50);
+
         ObjectPoolingManager.Instance.ReturnQueue(gameObject);
 
     }

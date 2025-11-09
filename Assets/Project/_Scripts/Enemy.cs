@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -18,9 +19,9 @@ public class Enemy : Entity
         base.Start();
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _navMeshAgent.speed = MovingSpeed;
-
-
     }
+
+
     void Update()
     {
         DetectTarget();
@@ -34,6 +35,7 @@ public class Enemy : Entity
     protected override void OnEnable()
     {
         base.OnEnable();
+        CurrentHealth = MaxHealth;
         onDie += EnemySpawnManager.Instance.UpdateEnemyCount;
     }
 
@@ -84,7 +86,6 @@ public class Enemy : Entity
         _animator.SetTrigger("Dead");
         XpManager.Instance.AddXP(1);
         ObjectPoolingManager.Instance.ReturnQueue(gameObject);
-
 
     }
     public void OnDeadAnimation()
