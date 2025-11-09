@@ -13,8 +13,9 @@ public abstract class Entity : LivingEntity
 
 
 
-    protected virtual void Start()
+    protected override void Start()
     {
+        base.Start();
         CurrentHealth = EntityData.MaxHealth;
         TargetLayer = EntityData.TargetLayer;
         MovingSpeed = EntityData.MovingSpeed;  
@@ -23,4 +24,6 @@ public abstract class Entity : LivingEntity
         _animator = GetComponent<Animator>();
         _collider = GetComponent<Collider>();
     }
+
+    
 }

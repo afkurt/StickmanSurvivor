@@ -6,11 +6,15 @@ public class ObjectPoolingManager : MonoBehaviour
 {
     public GameObject ProjectilePrefab;
     public GameObject EnemyPrefab;
+    public GameObject DieVFXPrefab;
     public int MaxProjectileCount = 100;
     public int MaxEnemyCount = 10;
+    public int MaxDieVFXCount = 100;
 
     public Queue<GameObject> ProjectileQueue = new Queue<GameObject>();
     public Queue<GameObject> EnemyQueue = new Queue<GameObject>();
+    public Queue<GameObject> DieVFXQueue= new Queue<GameObject>();
+
 
     public static ObjectPoolingManager Instance;
     private void Awake()
@@ -18,6 +22,7 @@ public class ObjectPoolingManager : MonoBehaviour
         if(Instance == null) Instance = this;
         CreatePool(ProjectilePrefab, ProjectileQueue, MaxProjectileCount);
         CreatePool(EnemyPrefab, EnemyQueue, MaxEnemyCount);
+        CreatePool(DieVFXPrefab, DieVFXQueue, MaxDieVFXCount);
     }
     
     private void Start()
@@ -35,9 +40,13 @@ public class ObjectPoolingManager : MonoBehaviour
         }
     }
 
+    public GameObject GetDieVFX()
+    {
+        return GetFromPool(DieVFXQueue, DieVFXPrefab);
+    }
+
     public GameObject GetProjectile()
     {
-        Debug.Log(ProjectileQueue.Count);
         return GetFromPool(ProjectileQueue, ProjectilePrefab);
     }
 
@@ -51,8 +60,13 @@ public class ObjectPoolingManager : MonoBehaviour
         if (pool.Count > 0)
         {
             GameObject obj = pool.Dequeue();
-            Collider objCollider = obj.GetComponent<Collider>();
-            objCollider.enabled = true;
+            Collider collider;
+            if (obj.GetComponent<Collider>() != null)
+            {
+                collider = obj.GetComponent<Collider>();
+                collider.enabled = true;
+            }
+            
             return obj;
         }
         return null;
@@ -67,8 +81,13 @@ public class ObjectPoolingManager : MonoBehaviour
             EnemyQueue.Enqueue(obj);
             return;
         }
-        obj.GetComponent<Projectile>().Target = null;
-        ProjectileQueue.Enqueue(obj);
+        if (obj.GetComponent<Projectile>() != null)
+        {
+            obj.GetComponent<Projectile>().Target = null;
+            ProjectileQueue.Enqueue(obj);
+            return;
+        }
+        DieVFXQueue.Enqueue(obj);
     }
 
 }

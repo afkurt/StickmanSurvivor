@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,14 +8,24 @@ public abstract class LivingEntity : MonoBehaviour
     public delegate void OnDamageTake(int damage);
     public OnDamageTake onDamageTake;
 
+    public GameObject _VFX;
+
     public delegate void OnDie();
     public OnDie onDie;
+
+    [SerializeField] protected SkinnedMeshRenderer _meshRenderer;
+    [SerializeField] protected Color _defaultColor;
 
 
     protected int MaxHealth = 100;
     [SerializeField] public int CurrentHealth;
 
-    
+    protected virtual void Start()
+    {
+        _meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        _defaultColor = _meshRenderer.material.color;
+
+    }
     protected virtual void OnEnable()
     {
         onDamageTake += TakeDamage;
@@ -29,9 +40,15 @@ public abstract class LivingEntity : MonoBehaviour
     public virtual void TakeDamage(int damage)
     {
         CurrentHealth -= damage;
+        StartCoroutine(HitEffect());
+
         if(CurrentHealth <= 0 )
         {
+            GameObject DieVFX =  ObjectPoolingManager.Instance.GetDieVFX();
+            DieVFX.transform.position = transform.position;
+            DieVFX.SetActive(true);
             onDie?.Invoke();
+            
         }
         
     }
@@ -39,8 +56,14 @@ public abstract class LivingEntity : MonoBehaviour
     {
         
     }
+    public virtual IEnumerator HitEffect()
+    {
+        _meshRenderer.material.color = Color.clear;
+        yield return new WaitForSeconds(0.1f);
+        _meshRenderer.material.color = _defaultColor;
+    }
 
-    
+
 
 
 }

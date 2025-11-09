@@ -75,7 +75,7 @@ public class Projectile : MonoBehaviour
     {
         Enemy enemy = other.GetComponent<Enemy>();
         if(enemy == null ) return;
-        enemy.TakeDamage(50);
+        enemy.TakeDamage(25);
 
         ObjectPoolingManager.Instance.ReturnQueue(gameObject);
 

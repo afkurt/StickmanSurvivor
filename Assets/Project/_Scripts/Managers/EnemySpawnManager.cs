@@ -32,7 +32,7 @@ public class EnemySpawnManager : MonoBehaviour
         _timer += Time.deltaTime;
         if( _timer > 5f && _enemyCount < 200f)
         {
-            SpawnEnemy(50);
+            SpawnEnemy(10);
             _timer = 0;
         }
     }
@@ -51,7 +51,7 @@ public class EnemySpawnManager : MonoBehaviour
             obj.SetActive(true);
             Enemy enemy = obj.GetComponent<Enemy>();
         }
-        _enemyCount += 50f;
+        _enemyCount += 10f;
 
     }
 }

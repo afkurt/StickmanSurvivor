@@ -151,6 +151,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5ed81b983347dd42a37ab34e9d8c9d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _VFX: {fileID: 8290628546662869388, guid: 73d424a8b9de1ee439f6b3ce4bf5cdd4, type: 3}
+  _meshRenderer: {fileID: 0}
+  _defaultColor: {r: 0, g: 0, b: 0, a: 0}
   CurrentHealth: 0
   EntityData: {fileID: 11400000, guid: bd982917cdf2f90448523479523e0a89, type: 2}
   TargetLayer:
