@@ -17,7 +17,7 @@ public abstract class LivingEntity : MonoBehaviour
     [SerializeField] protected Color _defaultColor;
 
 
-    protected int MaxHealth = 100;
+    protected int MaxHealth = 50;
     [SerializeField] public int CurrentHealth;
 
     protected virtual void Start()
@@ -36,6 +36,7 @@ public abstract class LivingEntity : MonoBehaviour
     {
         onDamageTake -= TakeDamage;
         onDie -= Die;
+        _meshRenderer.material.color = _defaultColor;
     }
     public virtual void TakeDamage(int damage)
     {
@@ -58,7 +59,7 @@ public abstract class LivingEntity : MonoBehaviour
     }
     public virtual IEnumerator HitEffect()
     {
-        _meshRenderer.material.color = Color.clear;
+        _meshRenderer.material.color = Color.blue;
         yield return new WaitForSeconds(0.1f);
         _meshRenderer.material.color = _defaultColor;
     }

@@ -76,7 +76,7 @@ public class Player : Entity
 
             GameObject _projectile = ObjectPoolingManager.Instance.GetProjectile();
             i++;
-            Debug.Log(i + "Adet mermi sıktım");
+            Debug.Log(i + " Adet mermi sıktım");
             _projectile.transform.position = transform.position + transform.forward + transform.up;
             _projectile.transform.rotation = transform.rotation;
             _projectile.GetComponent<Projectile>().SetTarget(Target);
@@ -95,7 +95,6 @@ public class Player : Entity
         hits = hits.OrderBy(h=> (h.transform.position - transform.position).magnitude).ToArray(); 
 
         Enemy nearest = hits[0].GetComponent<Enemy>();
-        Debug.Log(nearest.transform.GetInstanceID());
         return nearest;
     }
 
