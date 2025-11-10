@@ -17,6 +17,7 @@ public class Enemy : Entity
     protected override void Start()
     {
         base.Start();
+        
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _navMeshAgent.speed = MovingSpeed;
     }

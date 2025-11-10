@@ -1,4 +1,4 @@
-using Unity.VisualScripting;
+﻿using Unity.VisualScripting;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -15,15 +15,21 @@ public class Projectile : MonoBehaviour
     {
         
     }
+
+    private void Awake()
+    {
+        _trailRenderer = GetComponentInChildren<TrailRenderer>();
+    }
     private void OnEnable()
     {
-        
+        _trailRenderer.time = 0.2f;
     }
 
     private void OnDisable()
     {
         Timer = 0;
         Target = null;
+        _trailRenderer.time = 0f;
     }
 
     private void Update()
@@ -57,16 +63,18 @@ public class Projectile : MonoBehaviour
 
     public void ProtectileMove()
     {
-        Vector3 dir = transform.position;
-        if (Target == null)
+        Vector3 dir;
+        // 🔹 Hedef yoksa veya ölmüşse
+        if (Target == null || Entity == null || Entity.CurrentHealth <= 0)
         {
-            dir = transform.forward ;
+            dir = transform.forward; 
         }
         else
         {
-            dir = (Target.position - transform.position).normalized;
-            transform.LookAt(Target);
+            dir = (Target.position - transform.position).normalized; 
+            transform.rotation = Quaternion.LookRotation(dir);
         }
+
         transform.position += dir * Speed * Time.deltaTime;
     }
 

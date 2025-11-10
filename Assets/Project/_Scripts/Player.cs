@@ -44,9 +44,11 @@ public class Player : Entity
         
         _controller.Move(_direction * MovingSpeed * Time.deltaTime);
         transform.LookAt(transform.position + new Vector3 (_direction.x , 0, _direction.z)); //buraya bak
-        if( Target != null )
+        if( Target != null && _direction.magnitude > 0.1f && Target.CurrentHealth >= 1)
         {
-            transform.LookAt(Target.transform);
+            Vector3 direction = (Target.transform.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
         }
         float animSpeed = new Vector3(_direction.x, 0 , _direction.z).magnitude;
         _animator.SetFloat("Speed", animSpeed);
@@ -55,34 +57,25 @@ public class Player : Entity
     {
         _direction.y = _gravity;
     }
-
-
     
     public void SpawnProjectile()
     {
-        if(Target == null)
+        if (Target == null || Target.CurrentHealth <= 0)
         {
             Target = FindNearestTarget();
-            
-        }
-        else if (Target.CurrentHealth <= 0)
-        {
-           Target = FindNearestTarget();
-            
+
+            if (Target == null)
+                return;
         }
 
-        if (Target != null)
-        {
+        GameObject _projectile = ObjectPoolingManager.Instance.GetProjectile();
+        i++;
+        Debug.Log(i + " Adet mermi sıktım");
 
-            GameObject _projectile = ObjectPoolingManager.Instance.GetProjectile();
-            i++;
-            Debug.Log(i + " Adet mermi sıktım");
-            _projectile.transform.position = transform.position + transform.forward + transform.up;
-            _projectile.transform.rotation = transform.rotation;
-            _projectile.GetComponent<Projectile>().SetTarget(Target);
-            _projectile.SetActive(true);
+        _projectile.transform.position = transform.position + transform.forward + transform.up;
+        _projectile.SetActive(true);
 
-        }
+        _projectile.GetComponent<Projectile>().SetTarget(Target);
 
     }
 
@@ -100,8 +93,13 @@ public class Player : Entity
 
     void OnDrawGizmosSelected()
     {
-        // Editörde detection alanını görselleştirmek için
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, AttackRange);
+    }
+
+    public override void Die()
+    {
+        base.Die();
+        Target = null;
     }
 }

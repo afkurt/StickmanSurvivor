@@ -10,6 +10,9 @@ public class ObjectPoolingManager : MonoBehaviour
     public int MaxProjectileCount = 100;
     public int MaxEnemyCount = 10;
     public int MaxDieVFXCount = 100;
+    public Transform Projectiles;
+    public Transform Enemies;
+    public Transform DieVFXs;
 
     public Queue<GameObject> ProjectileQueue = new Queue<GameObject>();
     public Queue<GameObject> EnemyQueue = new Queue<GameObject>();
@@ -20,9 +23,9 @@ public class ObjectPoolingManager : MonoBehaviour
     private void Awake()
     {
         if(Instance == null) Instance = this;
-        CreatePool(ProjectilePrefab, ProjectileQueue, MaxProjectileCount);
-        CreatePool(EnemyPrefab, EnemyQueue, MaxEnemyCount);
-        CreatePool(DieVFXPrefab, DieVFXQueue, MaxDieVFXCount);
+        CreatePool(ProjectilePrefab, ProjectileQueue, MaxProjectileCount,Projectiles);
+        CreatePool(EnemyPrefab, EnemyQueue, MaxEnemyCount, Enemies);
+        CreatePool(DieVFXPrefab, DieVFXQueue, MaxDieVFXCount,DieVFXs);
     }
     
     private void Start()
@@ -31,11 +34,11 @@ public class ObjectPoolingManager : MonoBehaviour
     }
     
 
-    private void CreatePool(GameObject prefab, Queue<GameObject> pool, int count)
+    private void CreatePool(GameObject prefab, Queue<GameObject> pool, int count, Transform parentTransform)
     {
         for(int i = 0; i < count; i++)
         {
-            GameObject obj = Instantiate(prefab, transform.position, Quaternion.identity);
+            GameObject obj = Instantiate(prefab, transform.position, Quaternion.identity, parentTransform);
             pool.Enqueue(obj);
         }
     }
@@ -76,6 +79,7 @@ public class ObjectPoolingManager : MonoBehaviour
     {
         obj.SetActive(false);
         obj.transform.position = transform.position;
+        obj.transform.rotation = transform.rotation;
         if (obj.GetComponent<Enemy>() != null)
         {
             EnemyQueue.Enqueue(obj);

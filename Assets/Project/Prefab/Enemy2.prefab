@@ -165,6 +165,7 @@ MonoBehaviour:
   AttackCD: 0
   detectionRadius: 100
   moveSpeed: 3
+  player: {fileID: 2088616386332302124, guid: 0a71f5d8a21ea594aa9f9bb098222675, type: 3}
   textMeshPro: {fileID: 9018797750178280320}
 --- !u!195 &750877507887438942
 NavMeshAgent:

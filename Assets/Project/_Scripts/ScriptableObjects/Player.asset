@@ -19,4 +19,4 @@ MonoBehaviour:
     m_Bits: 128
   MovingSpeed: 10
   AttackRange: 20
-  AttackCD: 1
+  AttackCD: 0.3
