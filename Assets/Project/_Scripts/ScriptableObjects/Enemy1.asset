@@ -20,3 +20,4 @@ MonoBehaviour:
   MovingSpeed: 5
   AttackRange: 0
   AttackCD: 0
+  AttackDamage: 10

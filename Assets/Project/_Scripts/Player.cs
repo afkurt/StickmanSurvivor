@@ -74,7 +74,7 @@ public class Player : Entity
 
         _projectile.transform.position = transform.position + transform.forward + transform.up;
         _projectile.SetActive(true);
-
+        _projectile.GetComponent<Projectile>().SetDamage(AttackDamage);
         _projectile.GetComponent<Projectile>().SetTarget(Target);
 
     }
@@ -102,4 +102,13 @@ public class Player : Entity
         base.Die();
         Target = null;
     }
+
+   /* private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        Enemy enemy = hit.gameObject.GetComponent<Enemy>();
+        if (enemy == null) return;
+        Debug.Log("girdi");
+        TakeDamage(AttackDamage);
+        enemy.Die();
+    } */
 }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public abstract class LivingEntity : MonoBehaviour
 {
-    public delegate void OnDamageTake(int damage);
+    public delegate void OnDamageTake(float damage);
     public OnDamageTake onDamageTake;
 
     public GameObject _VFX;
@@ -18,7 +18,7 @@ public abstract class LivingEntity : MonoBehaviour
 
 
     protected int MaxHealth = 50;
-    [SerializeField] public int CurrentHealth;
+    [SerializeField] public float CurrentHealth;
 
     protected virtual void Start()
     {
@@ -38,7 +38,7 @@ public abstract class LivingEntity : MonoBehaviour
         onDie -= Die;
         _meshRenderer.material.color = _defaultColor;
     }
-    public virtual void TakeDamage(int damage)
+    public virtual void TakeDamage(float damage)
     {
         CurrentHealth -= damage;
         StartCoroutine(HitEffect());

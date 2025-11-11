@@ -1,7 +1,11 @@
+using DG.Tweening;
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class Enemy : Entity
 {
@@ -10,9 +14,12 @@ public class Enemy : Entity
     public float moveSpeed = 3f;
     
     private Transform target;
+    Player player;
     public TextMeshProUGUI textMeshPro;
 
     private NavMeshAgent _navMeshAgent;
+
+    private bool isAttackDone = false;
 
     protected override void Start()
     {
@@ -20,6 +27,7 @@ public class Enemy : Entity
         
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _navMeshAgent.speed = MovingSpeed;
+        
     }
 
 
@@ -31,6 +39,7 @@ public class Enemy : Entity
             MoveWithNavMesh();
         }
         textMeshPro.text = CurrentHealth.ToString();
+        Attack();
     }
 
     protected override void OnEnable()
@@ -65,6 +74,7 @@ public class Enemy : Entity
         if (hits.Length > 0)
         {
             target = hits[0].transform; 
+            player = target.GetComponent<Player>();
         }
         else
         {
@@ -89,10 +99,31 @@ public class Enemy : Entity
         ObjectPoolingManager.Instance.ReturnQueue(gameObject);
 
     }
-    public void OnDeadAnimation()
+
+    private void Attack()
     {
+        if (isAttackDone) return;
         
+        float distance = Vector3.Distance(transform.position, target.position);
+        if(distance <= _navMeshAgent.stoppingDistance)
+        {
+            isAttackDone = true;
+            Debug.Log("Domove çalýþtý");
+            transform.DOMove(target.position,1f).SetEase(Ease.OutQuad);
+            _animator.SetTrigger("Attack");
+
+        }
     }
 
-    
+    private void OnTriggerEnter(Collider other)
+    {
+        Player player = other.GetComponent<Player>();
+        if (player == null) return;
+        Debug.Log("girdi");
+        player.TakeDamage(AttackDamage);
+        CurrentHealth = 0f;
+        Die();
+    }
+
+
 }

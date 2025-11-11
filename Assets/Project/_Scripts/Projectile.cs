@@ -4,12 +4,12 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     public Transform Target;
-    public int Damage = 10;
     public float Speed = 10f;
     public float Lifetime = 2f;
     public float Timer;
     public TrailRenderer _trailRenderer;
     public Entity Entity;
+    public float AttackDamage;
 
     private void Start()
     {
@@ -60,11 +60,14 @@ public class Projectile : MonoBehaviour
         Entity = t.GetComponent<Entity>();
         Target = Entity.AimPoint;
     }
+    public void SetDamage (float damage)
+    {
+        AttackDamage = damage;
+    }
 
     public void ProtectileMove()
     {
         Vector3 dir;
-        // 🔹 Hedef yoksa veya ölmüşse
         if (Target == null || Entity == null || Entity.CurrentHealth <= 0)
         {
             dir = transform.forward; 
@@ -83,7 +86,7 @@ public class Projectile : MonoBehaviour
     {
         Enemy enemy = other.GetComponent<Enemy>();
         if(enemy == null ) return;
-        enemy.TakeDamage(25);
+        enemy.TakeDamage(AttackDamage);
 
         ObjectPoolingManager.Instance.ReturnQueue(gameObject);
 

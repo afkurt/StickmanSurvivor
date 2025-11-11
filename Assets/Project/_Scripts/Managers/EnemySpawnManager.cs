@@ -8,6 +8,7 @@ public class EnemySpawnManager : MonoBehaviour
     [SerializeField] private Transform _player;
     [SerializeField] private float _timer;
     [SerializeField] private float _enemyCount;
+    public int SpawnEnemyCount;
     public static EnemySpawnManager Instance;
 
     private void OnEnable()
@@ -32,7 +33,7 @@ public class EnemySpawnManager : MonoBehaviour
         _timer += Time.deltaTime;
         if( _timer > 5f && _enemyCount < 200f)
         {
-            SpawnEnemy(10);
+            SpawnEnemy(SpawnEnemyCount);
             _timer = 0;
         }
     }
@@ -51,7 +52,7 @@ public class EnemySpawnManager : MonoBehaviour
             obj.SetActive(true);
             Enemy enemy = obj.GetComponent<Enemy>();
         }
-        _enemyCount += 10f;
+        _enemyCount += count;
 
     }
 }
