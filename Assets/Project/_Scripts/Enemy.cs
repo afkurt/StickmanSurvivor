@@ -21,6 +21,7 @@ public class Enemy : Entity
 
     private bool isAttackDone = false;
 
+
     protected override void Start()
     {
         base.Start();
@@ -96,6 +97,7 @@ public class Enemy : Entity
         _collider.enabled = false;
         _animator.SetTrigger("Dead");
         XpManager.Instance.AddXP(1);
+        CoinManager.Instance.SpawnCoin(transform, target);
         ObjectPoolingManager.Instance.ReturnQueue(gameObject);
 
     }
@@ -108,10 +110,17 @@ public class Enemy : Entity
         if(distance <= _navMeshAgent.stoppingDistance)
         {
             isAttackDone = true;
-            Debug.Log("Domove çalýþtý");
-            transform.DOMove(target.position,1f).SetEase(Ease.OutQuad);
             _animator.SetTrigger("Attack");
-
+            transform.DOMove(target.position,1f).SetEase(Ease.OutQuad)
+                .OnComplete(() =>
+                {
+                    Debug.Log(transform.GetInstanceID() + "   1");
+                    if (!gameObject.activeSelf) return;
+                    CurrentHealth = 0f;
+                    Die();
+                    Debug.Log(transform.GetInstanceID() + "   2");
+                });
+            Debug.Log(transform.GetInstanceID() + "    3");
         }
     }
 

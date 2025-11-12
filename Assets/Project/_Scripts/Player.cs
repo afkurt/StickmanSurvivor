@@ -70,8 +70,6 @@ public class Player : Entity
 
         GameObject _projectile = ObjectPoolingManager.Instance.GetProjectile();
         i++;
-        Debug.Log(i + " Adet mermi sıktım");
-
         _projectile.transform.position = transform.position + transform.forward + transform.up;
         _projectile.SetActive(true);
         _projectile.GetComponent<Projectile>().SetDamage(AttackDamage);
