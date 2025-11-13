@@ -10,7 +10,7 @@ public abstract class Entity : LivingEntity
     public float AttackCD;
     protected Animator _animator;
     protected Collider _collider;
-    protected float AttackDamage;
+    public float AttackDamage;
     
 
 
@@ -19,6 +19,7 @@ public abstract class Entity : LivingEntity
     {
         base.Start();
         CurrentHealth = EntityData.MaxHealth;
+        MaxHealth = EntityData.MaxHealth;
         TargetLayer = EntityData.TargetLayer;
         MovingSpeed = EntityData.MovingSpeed;  
         AttackRange = EntityData.AttackRange;

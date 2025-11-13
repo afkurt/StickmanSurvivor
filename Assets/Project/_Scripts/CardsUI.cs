@@ -8,6 +8,7 @@ public class CardsUI : MonoBehaviour
     public Card[] Cards;
     public Transform centerPoint;
     public GameObject Joystick;
+    public Player player;   
     
 
     private void OnEnable()
@@ -35,13 +36,13 @@ public class CardsUI : MonoBehaviour
         {
             if (card == SelectedCard)
             {
-                Debug.Log("1");
                 card.transform.SetParent(transform, true);
                 card.transform.DOScale(2f,1f).SetEase(Ease.OutBack).SetUpdate(true);
                 card.transform.DOMove(centerPoint.position, 1f).SetEase(Ease.OutBack).SetUpdate(true)
                     .OnComplete(() =>
                     {
                         ResetCards();
+                        ApplyReward(SelectedCard);
                         Debug.Log(card.name);
                         transform.gameObject.SetActive(false);
                     });
@@ -54,9 +55,24 @@ public class CardsUI : MonoBehaviour
        
     }
 
-    private void ApplyReward(Card Card)
+    private void ApplyReward(Card card)
     {
-        
+        switch (card.cardType)
+        {
+            case Card.CardType.Attack:
+                player.AttackDamage += 5f;
+                break;
+
+            case Card.CardType.Cooldown:
+                player.AttackCD *= 0.9f;
+                break;
+
+            case Card.CardType.Health:
+                player.MaxHealth += 10f;
+                player.CurrentHealth = player.MaxHealth;
+                UIManager.Instance.UpdateHealthUI(player.CurrentHealth);
+                break;
+        }
     }
 
     public void ResetCards()

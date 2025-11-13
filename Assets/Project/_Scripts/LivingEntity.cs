@@ -17,8 +17,8 @@ public abstract class LivingEntity : MonoBehaviour
     [SerializeField] protected Color _defaultColor;
 
 
-    protected int MaxHealth = 50;
     [SerializeField] public float CurrentHealth;
+    [SerializeField] public float MaxHealth;
 
     protected virtual void Start()
     {

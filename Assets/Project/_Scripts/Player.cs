@@ -18,8 +18,9 @@ public class Player : Entity
 
     private void Awake()
     {
-
     }
+
+    
 
     private void Update()
     {
@@ -101,14 +102,13 @@ public class Player : Entity
     {
         base.Die();
         Target = null;
+        Time.timeScale = 0f;
+        UIManager.Instance.ShowPlayerDie();
     }
 
-   /* private void OnControllerColliderHit(ControllerColliderHit hit)
+    public override void TakeDamage(float damage)
     {
-        Enemy enemy = hit.gameObject.GetComponent<Enemy>();
-        if (enemy == null) return;
-        Debug.Log("girdi");
-        TakeDamage(AttackDamage);
-        enemy.Die();
-    } */
+        base.TakeDamage(damage);
+        UIManager.Instance.UpdateHealthUI(CurrentHealth);
+    }
 }
