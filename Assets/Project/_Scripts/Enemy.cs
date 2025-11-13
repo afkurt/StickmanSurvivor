@@ -114,13 +114,10 @@ public class Enemy : Entity
             transform.DOMove(target.position,1f).SetEase(Ease.OutQuad)
                 .OnComplete(() =>
                 {
-                    Debug.Log(transform.GetInstanceID() + "   1");
                     if (!gameObject.activeSelf) return;
                     CurrentHealth = 0f;
                     Die();
-                    Debug.Log(transform.GetInstanceID() + "   2");
                 });
-            Debug.Log(transform.GetInstanceID() + "    3");
         }
     }
 
@@ -128,7 +125,6 @@ public class Enemy : Entity
     {
         Player player = other.GetComponent<Player>();
         if (player == null) return;
-        Debug.Log("girdi");
         player.TakeDamage(AttackDamage);
         CurrentHealth = 0f;
         Die();

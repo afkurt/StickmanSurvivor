@@ -59,7 +59,7 @@ public abstract class LivingEntity : MonoBehaviour
     }
     public virtual IEnumerator HitEffect()
     {
-        _meshRenderer.material.color = Color.blue;
+        _meshRenderer.material.color = Color.red;
         yield return new WaitForSeconds(0.1f);
         _meshRenderer.material.color = _defaultColor;
     }

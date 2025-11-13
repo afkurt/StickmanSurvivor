@@ -33,6 +33,8 @@ public class Player : Entity
             AttackTimer = 0;
 
         }
+
+
         
     }
 

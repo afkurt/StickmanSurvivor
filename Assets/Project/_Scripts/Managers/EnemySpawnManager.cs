@@ -11,6 +11,7 @@ public class EnemySpawnManager : MonoBehaviour
     public int SpawnEnemyCount;
     public static EnemySpawnManager Instance;
 
+
     private void OnEnable()
     {
         Instance = this;
@@ -36,7 +37,8 @@ public class EnemySpawnManager : MonoBehaviour
             SpawnEnemy(SpawnEnemyCount);
             _timer = 0;
         }
-    }
+    
+}
 
 
 
