@@ -1,16 +1,21 @@
+using DG.Tweening;
 using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     public TextMeshProUGUI XPText;
     public TextMeshProUGUI HealthText;
+    public TextMeshProUGUI KillCountUI;
     public delegate void OnChestOpen();
     public OnChestOpen onChestOpen;
     public CardsUI CardsUI;
     public Canvas PlayerDieUI;
+    public Slider xpSlider;
+    public int KillCount;
 
     public static UIManager Instance;
 
@@ -35,12 +40,18 @@ public class UIManager : MonoBehaviour
 
     public void UpdateXPUI()
     {
-        XPText.text = XpManager.Instance.CurrentXp.ToString();
+        float progress = XpManager.Instance.CurrentXp / XpManager.Instance.RequiredXP;
+        xpSlider.DOValue(progress, 0.2f).SetEase(Ease.OutQuad);
     }
 
     public void UpdateHealthUI(float health)
     {
-        HealthText.text = ("Health  " + health.ToString());
+        HealthText.text = (health.ToString());
+        HealthText.transform.DOScale(transform.localScale * 1.2f, 0.2f)
+            .OnComplete(() =>
+            {
+                HealthText.transform.localScale *= 0.8f;
+            });
     }
 
     private void Update()
@@ -59,5 +70,13 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1f;
 
     }
+    public void UpdateKillCount()
+    {
+        KillCount++;
+        KillCountUI.text = KillCount.ToString();
+
+    }
+
+
 }
 

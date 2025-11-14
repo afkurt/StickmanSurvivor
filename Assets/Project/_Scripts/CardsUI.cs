@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class CardsUI : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class CardsUI : MonoBehaviour
     {
         Time.timeScale = 0f;
         Joystick.SetActive(false);
+        Joystick.GetComponentInChildren<FloatingJoystick>().OnPointerUp(null);
     }
 
     private void OnDisable()
@@ -36,6 +38,7 @@ public class CardsUI : MonoBehaviour
         {
             if (card == SelectedCard)
             {
+                card.GetComponent<Button>().enabled = false;
                 card.transform.SetParent(transform, true);
                 card.transform.DOScale(2f,1f).SetEase(Ease.OutBack).SetUpdate(true);
                 card.transform.DOMove(centerPoint.position, 1f).SetEase(Ease.OutBack).SetUpdate(true)
@@ -79,6 +82,7 @@ public class CardsUI : MonoBehaviour
     {
         foreach(var card in Cards)
         {
+            card.GetComponent<Button>().enabled = true;
             card.transform.SetParent(card.defaultParent);
             card.transform.position = card.defaultPos;
             card.transform.localScale = card.defaultScale;

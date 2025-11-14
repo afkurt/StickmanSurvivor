@@ -96,6 +96,7 @@ public class Enemy : Entity
         base.Die();
         _collider.enabled = false;
         _animator.SetTrigger("Dead");
+        UIManager.Instance.UpdateKillCount();
         XpManager.Instance.AddXP(1);
         CoinManager.Instance.SpawnCoin(transform, target);
         ObjectPoolingManager.Instance.ReturnQueue(gameObject);
